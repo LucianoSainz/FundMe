@@ -1,0 +1,35 @@
+{
+  "AggregatorV3Interface.sol": {
+    "__sources__": {}
+  },
+  "FundMe.sol": {
+    "./PriceConverter.sol": "PriceConverter.sol",
+    "__sources__": {
+      "FundMe.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport{PriceCoverter} from './PriceConverter.sol';\n\n\ncontract fundMe {\n\n   using PriceCoverter for uint256;\n\n   uint256 public minimumUsd = 5e18;\n\n   address[] public funders;\n   mapping(address funder => uint256 amountFunded) public addressToAmountFunded;\n\n   function fund() public payable {\n    require(msg.value.getConversionRate() >= minimumUsd, \"didn't send enought ETH\"); //1e18 = 1ETH = 1000000000000000000 = 1 * 10 ** 18\n    funders.push(msg.sender);\n    addressToAmountFunded[msg.sender] + addressToAmountFunded[msg.sender] + msg.value;\n   }\n\n   //function withdraw () public{}\n\n}",
+        "file": "FundMe.sol"
+      },
+      "PriceConverter.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport {AggregatorV3Interface} from \"@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol\";\n\nlibrary PriceCoverter{\n\n    function getPrice() internal view returns(uint256){\n   //Address 0x694AA1769357215DE4FAC081bf1f309aDC325306\n   //ABI\n\n   AggregatorV3Interface priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);\n   (,int256 price,,,) = priceFeed.latestRoundData();\n   return uint256(price* 1e10);\n}\n\n   function getConversionRate(uint256 ethAmount) internal view returns(uint256){\n      uint256 ethPrice = getPrice();\n      uint256 ethAmountInUsd = (ethPrice * ethAmount) / 1e18;\n      return ethAmountInUsd;\n   }\n\n   function getVersion() internal view returns(uint256){\n      return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version();\n   } \n}",
+        "file": "PriceConverter.sol"
+      },
+      "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\n// solhint-disable-next-line interface-starts-with-i\ninterface AggregatorV3Interface {\n  function decimals() external view returns (uint8);\n\n  function description() external view returns (string memory);\n\n  function version() external view returns (uint256);\n\n  function getRoundData(\n    uint80 _roundId\n  ) external view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n\n  function latestRoundData()\n    external\n    view\n    returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n}\n",
+        "file": "@chainlink/contracts@1.5.0/src/v0.8/shared/interfaces/AggregatorV3Interface.sol"
+      }
+    }
+  },
+  "PriceConverter.sol": {
+    "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol": ".deps/npm/@chainlink/contracts@1.5.0/src/v0.8/shared/interfaces/AggregatorV3Interface.sol",
+    "__sources__": {
+      "PriceConverter.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.19;\n\nimport {AggregatorV3Interface} from \"@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol\";\n\nlibrary PriceCoverter{\n\n    function getPrice() internal view returns(uint256){\n   //Address 0x694AA1769357215DE4FAC081bf1f309aDC325306\n   //ABI\n\n   AggregatorV3Interface priceFeed = AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306);\n   (,int256 price,,,) = priceFeed.latestRoundData();\n   return uint256(price* 1e10);\n}\n\n   function getConversionRate(uint256 ethAmount) internal view returns(uint256){\n      uint256 ethPrice = getPrice();\n      uint256 ethAmountInUsd = (ethPrice * ethAmount) / 1e18;\n      return ethAmountInUsd;\n   }\n\n   function getVersion() internal view returns(uint256){\n      return AggregatorV3Interface(0x694AA1769357215DE4FAC081bf1f309aDC325306).version();\n   } \n}",
+        "file": "PriceConverter.sol"
+      },
+      "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\n// solhint-disable-next-line interface-starts-with-i\ninterface AggregatorV3Interface {\n  function decimals() external view returns (uint8);\n\n  function description() external view returns (string memory);\n\n  function version() external view returns (uint256);\n\n  function getRoundData(\n    uint80 _roundId\n  ) external view returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n\n  function latestRoundData()\n    external\n    view\n    returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound);\n}\n",
+        "file": "@chainlink/contracts@1.5.0/src/v0.8/shared/interfaces/AggregatorV3Interface.sol"
+      }
+    }
+  }
+}
